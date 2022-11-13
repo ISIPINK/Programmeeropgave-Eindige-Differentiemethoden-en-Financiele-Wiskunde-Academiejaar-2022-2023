@@ -5,25 +5,21 @@
 \oefening{1}
 
 We gaan de Black-Scholes PDE in het
-discretisatie rooster $(s_{i})$ beschouwen.\\
-
-\begin{notatie}[Black-Scholes]
+discretisatie rooster $(s_{i})$ beschouwen
+met volgende notatie.
   \begin{align*}
     u',u'_{j}   &= u_{t},u_{t}(s_{j},t)\\
     c^{2},c^{1},c^{0}&= \frac{1}{2} \sigma^{2}s^{2}, rs , r  
   \end{align*}
  Benaderingen van $u$ zullen aangeduid worden met
  $U$.
-\end{notatie}
 
 De Black-Scholes vergelijking met deze notatie wordt:
 \[
   u'= c_{2}u_{ss }+ c_{1}u_{s} -c_{0}u
 .\]
 
-Dit zijn de formules voor de discretisatie 
-(tweede orde centraal) van de plaats
-afgeleiden:
+Dit zijn tweede orde benaderingen voor de afgeleiden van $u$ (tweede orde centraal):
 
 \begin{align*}
   u_{s}  &= \frac{u(s+h)-u(s-h)}{2h} + O(h^{2})\\
@@ -31,10 +27,52 @@ afgeleiden:
 \end{align*}
 
 Hiermee wordt de benaderde Black-Scholes vergelijking
-in de rooster:
+in het rooster:
 
 \[
-  u'_{j}
+  U'_{j}= \frac{c_{j}^{2}}{h^{2}}(U_{j+1}-2U_{j}+ U_{j-1})
+  + \frac{c_{j}^{1}}{2h}(U_{j+1}-U_{j-1})
+  - c_{j}^{0}U_{j} 
+.\]
+Dit kunnen we eenvoudiger schrijven in matrix vorm.
+Voer eerst volgende notatie in 
+\[
+    D_{j}=
+  \left[
+  \left(
+  \frac{c_{j}^{2}}{h^{2}} + \frac{c_{j}^{1}}{2h}
+  \right) ,
+  \left(
+  -2 \frac{c_{j}^{2}}{h^{2}}- c_{j}^{0}
+  \right) ,
+  \left(
+  \frac{c_{j}^{2}}{h^{2}} - \frac{c_{j}^{1}}{2h} 
+  \right) 
+  \right]  .\]
+Hiermee wordt dit
+\[
+U'_{j}=D_{j} \left( U_{j-1},U_{j}, U_{j+1} \right)^{T}
+ \text{voor } 1 \le j \le m.\]
+Nog meer notatie
+\begin{align*}
+  U' &= (U'_{1}, U'_{2}, ..., U'_{m})^{T}\\
+  U_{d} &= (U_{0}, U_{2}, ..., U_{m+1})^{T}\\
+  A_{d} &= \text{Diag}(D_{j})\\
+  U &= U_{d}\text{ zonder de eerste en laatste kolom} \\
+  A &= A_{d}\text{ zonder de eerste en laatste kolom} 
+\end{align*}
+Hiermee wordt dit
+\[
+  U' = A_{d}U_{d}
+.\]
+
+Door de beginvoorwaarden zijn we enkel geïnteresseerd
+in $U$. Door de structuur van $A_{d}$ en de 
+beginvoorwaarden kunnen we $U_{0}$
+en $U_{m+1}$ wegwerken in een term $g(t)$.
+
+\[
+  U' = AU + (D_{0})_{0}U_{0} + (D_{m})_{2} U_{m+1}
 .\]
 \end{document}
 
