@@ -1,0 +1,40 @@
+\documentclass{article}
+\input{preamble.tex}
+
+\begin{document}
+\oefening{1}
+
+We gaan de Black-Scholes PDE in het
+discretisatie rooster $(s_{i})$ beschouwen.\\
+
+\begin{notatie}[Black-Scholes]
+  \begin{align*}
+    u',u'_{j}   &= u_{t},u_{t}(s_{j},t)\\
+    c^{2},c^{1},c^{0}&= \frac{1}{2} \sigma^{2}s^{2}, rs , r  
+  \end{align*}
+ Benaderingen van $u$ zullen aangeduid worden met
+ $U$.
+\end{notatie}
+
+De Black-Scholes vergelijking met deze notatie wordt:
+\[
+  u'= c_{2}u_{ss }+ c_{1}u_{s} -c_{0}u
+.\]
+
+Dit zijn de formules voor de discretisatie 
+(tweede orde centraal) van de plaats
+afgeleiden:
+
+\begin{align*}
+  u_{s}  &= \frac{u(s+h)-u(s-h)}{2h} + O(h^{2})\\
+  u_{ss} &= \frac{u(s+h)-2u(s)+u(s-h)}{h^{2}} + O(h^{2})
+\end{align*}
+
+Hiermee wordt de benaderde Black-Scholes vergelijking
+in de rooster:
+
+\[
+  u'_{j}
+.\]
+\end{document}
+
