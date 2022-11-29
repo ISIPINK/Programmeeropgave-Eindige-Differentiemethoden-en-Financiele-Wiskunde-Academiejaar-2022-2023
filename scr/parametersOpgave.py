@@ -93,7 +93,7 @@ def parametersOpgave(plaatsPunten:int = 100):
 
     par = Model(
            rente = 0.01,
-           volatiliteit = 0.25,
+           volatiliteit =0.25,
            looptijd = 2,
            strike = 100,
            L = 80,

@@ -77,15 +77,35 @@ en $U_{m+1}$ wegwerken in een term $g(t)$.
 .\]
 
 \oefening{2}
-Kijk naar figuur \ref{fig:mnexp} voor de gevraagde grafiek. Dit suggereert $\lim_{h \to 0} \mu_{2}(A) \le 0$ stabiliteit dus.
+Kijk naar figuur\ref{fig:mnexp} voor de gevraagde grafiek. Dit suggereert 
+dat $\omega = 0$ en $K = 2$ stabiliteit constanten
+zijn voor deze semi discretisatie.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{oefening2.png}
-\caption{ $||e^{At}||_{2}$ vs $t$ voor verschillende $m$}
-  \label{fig:mnexp}
+\caption{ $||e^{At}||_{2}$ vs $t$ voor verschillende $m$}\label{fig:mnexp}
 \end{figure}
 
 \oefening{3}
+Kijk naar figuur\ref{fig:muA} voor $\mu(A)$ voor verschillende $m$. 
+$\mu(A)$ groeit even snel als $m^{2}$ (kijk grafiek). Dit kan waarschijnlijk
+bewezen worden met $\mu_{1}, \mu_{2}$ afschatting. Dit betekent dat we geen
+stabiliteit hebben voor $T = \infty$. 
 
+\begin{figure}
+\includegraphics[width=\linewidth]{oefening3.png}
+\caption{ $(\mu(A), m^2)$ vs $m$}\label{fig:muA}
+\end{figure}
+
+\oefening{4}
+In dit geval is de impliciete trapezium regel:
+\[
+  U_{n+1} = U_{n} + \frac{1}{2} \tau (A U_{n} + g(t_{n}) + A U_{n+1} + g(t_{n+1}))
+.\]
+Verzamel $U_{n+1}$ (omdat we die niet weten) dit ziet er zo uit:
+\[
+  (I-\frac{\tau}{2}A)U_{n+1} = U_{n} + \frac{\tau}{2} (AU_{n} + g(t_{n})+ g(t_{n+1}))
+.\]
+Dit is een ijl stelsel die een unieke oplossing heeft voor kleine $\tau$.
 \end{document}
 
