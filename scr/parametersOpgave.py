@@ -14,16 +14,16 @@ class Model:
     L: float
     # S is bovengrens van de discretisatie
     S: float
-    aantalPunten: int
+    plaatsPunten: int
 
     @property
     def maaswijdte(self) -> float:
         """Ook wel h genoemd"""
-        return (self.S-self.L)/self.aantalPunten  
+        return (self.S-self.L)/(self.plaatsPunten+1)  
 
     @property
     def roosterPunten(self)->np.array:
-        """roosterPunten exlusief L en S"""
+        """roosterPunten exlusief L en S (de s_j's)"""
         return np.arange(self.L,self.S,self.maaswijdte)[1:]
 
     # beginvoorwaarden
@@ -36,7 +36,7 @@ class Model:
     def beginS(self,t)->float:
         return self.S - exp(- self.rente * t) * self.strike
 
-    #notatie
+    #notatie (oef1)
     """Dit is allemaal notatie voor uitleg kijk verslag"""
     def c0(self, s)-> float:
         return self.rente
@@ -57,51 +57,98 @@ class Model:
     
     def Ad(self):
         row = []    # [0,0,0, 1,1,1, ...]
-        for j in range(self.aantalPunten):
+        for j in range(self.plaatsPunten):
             for _ in range(3):
                 row.append(j)
 
         col = []    # [0,1,2, 1,2,3, ...]
-        for j in range(self.aantalPunten):
+        for j in range(self.plaatsPunten):
             for i in range(3):
                 col.append(j+i)
 
         data = []   # alle coëfficiënten Dj aan mekaar 
-        for j in range(self.aantalPunten):
+        for j in range(self.plaatsPunten):
             for Djk in self.D(j):
                 data.append(Djk)
 
         # sparse matrix constructie
-        return csc_matrix((data, (row, col)), shape = (self.aantalPunten, self.aantalPunten+2)).toarray()
-        
+        return csc_matrix((data, (row, col)), shape = (self.plaatsPunten, self.plaatsPunten+2)).toarray()
+
+    def A(self):
+        return self.Ad()[:,1:self.plaatsPunten+1]
+
+    def g(self,t)->float:
+        g1 = self.D(1)[0]*self.beginL(t)
+        gm = self.D(self.plaatsPunten)[2] * self.beginS(t)    
+        data = [g1,gm]
+        row = [0, self.plaatsPunten-1]  #python telt van 0
+        col = [0, 0]                    #python telt van 0
+        return csc_matrix((data, (row, col)), shape = (self.plaatsPunten, 1)).toarray()
 
 
 
-def parametersOpgave(aantalPunten:int = 100):
-   par = Model(
+def parametersOpgave(plaatsPunten:int = 100):
+    if plaatsPunten > 10**4:
+        raise Exception("Zoveel punten (>10**4) kunnen mijn geheugen niet aan")
+
+    par = Model(
            rente = 0.01,
            volatiliteit = 0.25,
            looptijd = 2,
            strike = 100,
            L = 80,
            S = 300,
-           aantalPunten = aantalPunten) 
-   return par
+           plaatsPunten = plaatsPunten) 
+    return par
 
-def testModelBegin0():
+
+def testroosterpunten(aantal=10):
+    par = parametersOpgave(aantal)
+    print("aantal:", len(par.roosterPunten))
+    print(par.roosterPunten)
+
+def testBegin0():
     par = parametersOpgave()
     x = par.roosterPunten
     y = [par.begint0(xi) for xi in x ]
     plt.plot(x,y)
     plt.show()
 
-def testModelD():
+def testD():
     par = parametersOpgave()
     print(par.D(3))
 
 def testAd(dim):
     par = parametersOpgave(dim)
-    par.Ad()
+    Ad = par.Ad()
+    print(Ad)
+
+def testA(dim):
+    print("Some sanity checks:")
+    Pdif = parametersOpgave(dim)
+    Pdif.c0 = lambda x : 0
+    Pdif.c1 = lambda x : 0
+    Pdif.c2 = lambda x : 1
+    A = Pdif.A()* Pdif.maaswijdte**2
+    print("pure diffusie orde 2:")
+    print(A)
+
+    Pcon = parametersOpgave(dim)
+    Pcon.c0 = lambda x : 0
+    Pcon.c1 = lambda x : 1
+    Pcon.c2 = lambda x : 0
+    A = 2* Pcon.A()* Pcon.maaswijdte
+    print("pure convectie orde 2:")
+    print(A)
+
+def testg(dim):
+    par = parametersOpgave(dim)
+    g = par.g
+    print("g(0):")
+    print(g(0))
+    print("g(2):")
+    print(g(2))
+
 
 if __name__ == "__main__":
-    testAd(10000)
+    testg(4)
