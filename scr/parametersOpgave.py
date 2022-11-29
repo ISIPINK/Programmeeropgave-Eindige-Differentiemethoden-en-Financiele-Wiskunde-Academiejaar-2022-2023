@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from math import exp
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.sparse import csc_matrix
 
 @dataclass
 class Model:
@@ -25,6 +26,18 @@ class Model:
         """roosterPunten exlusief L en S"""
         return np.arange(self.L,self.S,self.maaswijdte)[1:]
 
+    # beginvoorwaarden
+    def begint0(self,s)->float:
+        return max(s-self.strike,0)
+
+    def beginL(self, t)->float:
+        return 0
+
+    def beginS(self,t)->float:
+        return self.S - exp(- self.rente * t) * self.strike
+
+    #notatie
+    """Dit is allemaal notatie voor uitleg kijk verslag"""
     def c0(self, s)-> float:
         return self.rente
 
@@ -35,20 +48,34 @@ class Model:
         return 0.5 * self.volatiliteit**2 * s**2
     
     def D(self,j)->np.array:
-        sj = self.roosterPunten[j-1] #python telt van 0
-        tmp0 = self.c2(sj)/(self.maaswijdte**2) + self.c1(sj)/(2*self.maaswijdte)
-        tmp1 = -2*self.c2(sj)/(self.maaswijdte**2)- self.c0(sj) 
-        tmp2 = self.c2(sj)/(self.maaswijdte**2) - self.c1(sj)/(2*self.maaswijdte)
-        return np.array([tmp0, tmp1, tmp2])
-      
-    def begint0(self,s)->float:
-        return max(s-self.strike,0)
+        # dit kan efficiënter (redundancy)
+        sj = self.roosterPunten[j-1]  # python telt van 0
+        D0 = self.c2(sj)/(self.maaswijdte**2) + self.c1(sj)/(2*self.maaswijdte)
+        D1 = -2*self.c2(sj)/(self.maaswijdte**2) - self.c0(sj)
+        D2 = self.c2(sj)/(self.maaswijdte**2) - self.c1(sj)/(2*self.maaswijdte)
+        return np.array([D0, D1, D2])
+    
+    def Ad(self):
+        row = []    # [0,0,0, 1,1,1, ...]
+        for j in range(self.aantalPunten):
+            for _ in range(3):
+                row.append(j)
 
-    def beginL(self, t)->float:
-        return 0
+        col = []    # [0,1,2, 1,2,3, ...]
+        for j in range(self.aantalPunten):
+            for i in range(3):
+                col.append(j+i)
 
-    def beginS(self,t)->float:
-        return self.S - exp(- self.rente * t) * self.strike
+        data = []   # alle coëfficiënten Dj aan mekaar 
+        for j in range(self.aantalPunten):
+            for Djk in self.D(j):
+                data.append(Djk)
+
+        # sparse matrix constructie
+        return csc_matrix((data, (row, col)), shape = (self.aantalPunten, self.aantalPunten+2)).toarray()
+        
+
+
 
 def parametersOpgave(aantalPunten:int = 100):
    par = Model(
@@ -72,5 +99,9 @@ def testModelD():
     par = parametersOpgave()
     print(par.D(3))
 
+def testAd(dim):
+    par = parametersOpgave(dim)
+    par.Ad()
+
 if __name__ == "__main__":
-    testModelD()
+    testAd(10000)
