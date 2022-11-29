@@ -76,10 +76,13 @@ en $U_{m+1}$ wegwerken in een term $g(t)$.
   U' = AU + (D_{1})_{0}U_{0}e_{1} + (D_{m})_{2} U_{m+1} e_{m}
 .\]
 
+Merk op dat in deze opgave $U_{0}=0$.
 \oefening{2}
 Kijk naar figuur\ref{fig:mnexp} voor de gevraagde grafiek. Dit suggereert 
 dat $\omega = 0$ en $K = 2$ stabiliteit constanten
-zijn voor deze semi discretisatie.
+zijn voor deze semi discretisatie. \\
+Als $m \rightarrow \infty$ dan wordt de bijhorende grafiek waarschijnlijk
+een rechte.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{oefening2.png}
@@ -87,14 +90,14 @@ zijn voor deze semi discretisatie.
 \end{figure}
 
 \oefening{3}
-Kijk naar figuur\ref{fig:muA} voor $\mu(A)$ voor verschillende $m$. 
-$\mu(A)$ groeit even snel als $m^{2}$ (kijk grafiek). Dit kan waarschijnlijk
-bewezen worden met $\mu_{1}, \mu_{2}$ afschatting. Dit betekent dat we geen
-stabiliteit hebben voor $T = \infty$. 
+Kijk naar figuur\ref{fig:muA} voor $\mu_{2}(A)$ voor verschillende $m$. 
+$\mu_{2}(A)$ groeit even snel als $m^{2}$ (kijk grafiek). Dit kan waarschijnlijk
+bewezen worden met $\mu_{1}, \mu_{2}$ afschatting. Dit betekent dat voor  
+$K$ de stabiliteit constante bij $T = \infty: K > 1$ .
 
 \begin{figure}
 \includegraphics[width=\linewidth]{oefening3.png}
-\caption{ $(\mu(A), m^2)$ vs $m$}\label{fig:muA}
+\caption{ $(\mu_{2}(A), m^2)$ vs $m$}\label{fig:muA}
 \end{figure}
 
 \oefening{4}

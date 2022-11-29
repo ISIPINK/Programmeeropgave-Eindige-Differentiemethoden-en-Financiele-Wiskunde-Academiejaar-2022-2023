@@ -10,15 +10,15 @@ from plotnine import *
 
 
 def grafiekMatrixExpA(alleM:"lijst van m" = [5,10,20,50,100]):
-    p = parametersOpgave(0)
-    t = np.arange(0,p.looptijd, p.looptijd/200)
+    looptijd = parametersOpgave(0).looptijd
+    times = np.arange(0, looptijd, looptijd/200)
 
     df = pd.DataFrame({"time":[], "m":[], "n2expM":[]})
 
     for m in alleM:
-        par = parametersOpgave(m)
-        for time in t:
-            row = pd.Series([time,m, norm(expm(par.A()*time),2)],index = df.columns)
+        A = parametersOpgave(m).A()
+        for time in times:
+            row = pd.Series([time,m, norm(expm(A*time),2)],index = df.columns)
             df = df.append(row, ignore_index = True)
 
     plot = ggplot(df) + aes(x="time",y= "n2expM",color="m") + geom_point(size = 0.5)
@@ -36,7 +36,6 @@ def grafiekMuA(alleM:"lijst van m" = list(range(5,50))+ list(range(50,100,5))+ l
             ],index = df.columns)
         df = df.append(row, ignore_index = True)
 
-    print(df.head())
     plot = (
     ggplot(df) 
     + geom_line(aes(x="m",y= "mu"), color = "blue") 
@@ -48,4 +47,5 @@ def grafiekMuA(alleM:"lijst van m" = list(range(5,50))+ list(range(50,100,5))+ l
 
 
 if __name__ == "__main__":
-    print("lol")
+    grafiekMatrixExpA()
+    grafiekMuA()

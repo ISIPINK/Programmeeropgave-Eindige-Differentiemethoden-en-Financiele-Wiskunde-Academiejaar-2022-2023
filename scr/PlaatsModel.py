@@ -1,0 +1,86 @@
+from dataclasses import dataclass
+from math import exp
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.sparse import csc_matrix
+
+@dataclass
+class PlaatsModel:
+    rente:float
+    volatiliteit:float
+    looptijd:float 
+    strike: float
+    # L is ondergrens van de discretisatie
+    L: float
+    # S is bovengrens van de discretisatie
+    S: float
+    plaatsPunten: int
+
+    @property
+    def maaswijdte(self) -> float:
+        """Ook wel h genoemd"""
+        return (self.S-self.L)/(self.plaatsPunten+1)  
+
+    @property
+    def roosterPunten(self)->np.array:
+        """roosterPunten exlusief L en S (de s_j's)"""
+        return np.arange(self.L,self.S,self.maaswijdte)[1:]
+
+    # beginvoorwaarden
+    def begint0(self,s)->float:
+        return max(s-self.strike,0)
+
+    def beginL(self, t)->float:
+        return 0
+
+    def beginS(self,t)->float:
+        return self.S - exp(- self.rente * t) * self.strike
+
+    #notatie (oef1)
+    """Dit is allemaal notatie voor uitleg kijk verslag"""
+    def c0(self, s)-> float:
+        return self.rente
+
+    def c1(self, s)-> float:
+        return self.rente * s
+
+    def c2(self, s)-> float:
+        return 0.5 * self.volatiliteit**2 * s**2
+    
+    def D(self,j)->np.array:
+        # dit kan efficiënter (redundancy)
+        sj = self.roosterPunten[j-1]  # python telt van 0
+        D0 = self.c2(sj)/(self.maaswijdte**2) + self.c1(sj)/(2*self.maaswijdte)
+        D1 = -2*self.c2(sj)/(self.maaswijdte**2) - self.c0(sj)
+        D2 = self.c2(sj)/(self.maaswijdte**2) - self.c1(sj)/(2*self.maaswijdte)
+        return np.array([D0, D1, D2])
+    
+    def Ad(self):
+        row = []    # [0,0,0, 1,1,1, ...]
+        for j in range(self.plaatsPunten):
+            for _ in range(3):
+                row.append(j)
+
+        col = []    # [0,1,2, 1,2,3, ...]
+        for j in range(self.plaatsPunten):
+            for i in range(3):
+                col.append(j+i)
+
+        data = []   # alle coëfficiënten Dj aan mekaar 
+        for j in range(self.plaatsPunten):
+            for Djk in self.D(j):
+                data.append(Djk)
+
+        # sparse matrix constructie
+        return csc_matrix((data, (row, col)), shape = (self.plaatsPunten, self.plaatsPunten+2)).toarray()
+
+    def A(self):
+        return self.Ad()[:,1:self.plaatsPunten+1]
+
+    def g(self,t)->float:
+        g1 = self.D(1)[0]*self.beginL(t) # altijd 0 in dit model
+        gm = self.D(self.plaatsPunten)[2] * self.beginS(t)    
+        data = [g1,gm]
+        row = [0, self.plaatsPunten-1]  #python telt van 0
+        col = [0, 0]                    #python telt van 0
+        return csc_matrix((data, (row, col)), shape = (self.plaatsPunten, 1)).toarray()
