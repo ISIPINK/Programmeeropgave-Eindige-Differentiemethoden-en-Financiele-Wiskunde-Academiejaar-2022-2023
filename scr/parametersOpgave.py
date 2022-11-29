@@ -78,7 +78,7 @@ class Model:
         return self.Ad()[:,1:self.plaatsPunten+1]
 
     def g(self,t)->float:
-        g1 = self.D(1)[0]*self.beginL(t)
+        g1 = self.D(1)[0]*self.beginL(t) # altijd 0 in dit model
         gm = self.D(self.plaatsPunten)[2] * self.beginS(t)    
         data = [g1,gm]
         row = [0, self.plaatsPunten-1]  #python telt van 0
