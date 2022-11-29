@@ -5,7 +5,7 @@ import numpy as np
 from scipy.sparse import csc_matrix
 
 @dataclass
-class PlaatsModel:
+class Model:
     rente:float
     volatiliteit:float
     looptijd:float 
@@ -15,11 +15,16 @@ class PlaatsModel:
     # S is bovengrens van de discretisatie
     S: float
     plaatsPunten: int
+    tijdPunten: int
 
     @property
     def maaswijdte(self) -> float:
         """Ook wel h genoemd"""
         return (self.S-self.L)/(self.plaatsPunten+1)  
+
+    @property
+    def tau(self) -> float:
+        return  self.looptijd/self.tijdPunten
 
     @property
     def roosterPunten(self)->np.array:
@@ -29,6 +34,14 @@ class PlaatsModel:
     # beginvoorwaarden
     def begint0(self,s)->float:
         return max(s-self.strike,0)
+
+    # cell averaging
+    def beginU(self)->float:
+        return [self.begint0(sj) 
+                if abs(sj-self.strike) > self.maaswijdte/2 
+                else 0.5*((sj + self.maaswijdte*0.5) - self.strike) 
+                for sj in self.roosterPunten]
+
 
     def beginL(self, t)->float:
         return 0

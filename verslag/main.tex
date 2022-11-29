@@ -103,12 +103,17 @@ $K$ de stabiliteit constante bij $T = \infty: K > 1$ .
 \oefening{4}
 In dit geval is de impliciete trapezium regel:
 \[
-  U_{n+1} = U_{n} + \frac{1}{2} \tau (A U_{n} + g(t_{n}) + A U_{n+1} + g(t_{n+1}))
+  U(t_{n+1}) = U(t_{n}) + \frac{1}{2} \tau (A U(t_{n}) + g(t_{n}) + A U(t_{n+1}) + g(t_{n+1}))
 .\]
-Verzamel $U_{n+1}$ (omdat we die niet weten) dit ziet er zo uit:
+Verzamel $U(t_{n+1})$ (omdat die onbekend is) dit ziet er zo uit:
 \[
-  (I-\frac{\tau}{2}A)U_{n+1} = U_{n} + \frac{\tau}{2} (AU_{n} + g(t_{n})+ g(t_{n+1}))
+  (I-\frac{\tau}{2}A)U(t_{n+1}) = U(t_{n}) + \frac{\tau}{2} (AU(t_{n}) + g(t_{n})+ g(t_{n+1}))
 .\]
 Dit is een ijl stelsel die een unieke oplossing heeft voor kleine $\tau$.
+LU is hier de meest voor de hand liggende methode omdat we dit stelsel
+herhaaldelijk moeten oplossen.
+
+\oefening{5}
+Kijk python code.
 \end{document}
 

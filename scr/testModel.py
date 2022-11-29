@@ -12,6 +12,16 @@ def testBegin0():
     x = par.roosterPunten
     y = [par.begint0(xi) for xi in x ]
     plt.plot(x,y)
+    plt.title("testBegin0")
+    plt.show()
+
+def testBeginU(lijstPlaatsPunten = [20,50,100]):
+    for plaatspunten in lijstPlaatsPunten:
+        par = parametersOpgave(plaatspunten)
+        x = par.roosterPunten
+        y = par.beginU()
+        plt.plot(x,y)
+    plt.title(f"testBeginU plaatspunten={lijstPlaatsPunten}")
     plt.show()
 
 def testD():
@@ -54,6 +64,7 @@ def testg(dim= 4):
 if __name__ == "__main__":
     testroosterpunten()
     testBegin0()
+    testBeginU()
     testD()
     testAd()
     testA()

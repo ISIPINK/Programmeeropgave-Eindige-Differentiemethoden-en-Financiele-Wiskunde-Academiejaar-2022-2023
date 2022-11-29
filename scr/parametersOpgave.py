@@ -1,15 +1,19 @@
-from PlaatsModel import PlaatsModel
+from Model import Model
 
-def parametersOpgave(plaatsPunten:int = 100):
-    if plaatsPunten > 10**4:
-        raise Exception("Zoveel punten (>10**4) kunnen mijn geheugen niet aan")
+def parametersOpgave(plaatsPunten:int = 100, tijdPunten:int = 100)->Model:
+    if plaatsPunten > 10**3:
+        raise Exception("Zoveel plaats punten (>10**4) kunnen mijn geheugen niet aan")
 
-    par = PlaatsModel(
+    if tijdPunten > 10**2:
+        raise Exception("Zoveel tijd punten (>10**2) er moet ergens een limiet zijn")
+
+    par = Model(
            rente = 0.01,
            volatiliteit =0.25,
            looptijd = 2,
            strike = 100,
            L = 80,
            S = 300,
-           plaatsPunten = plaatsPunten) 
+           plaatsPunten = plaatsPunten,
+           tijdPunten = tijdPunten) 
     return par
