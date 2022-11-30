@@ -64,7 +64,6 @@ def testuLaatste(plaatsPunten=100, tijdPunten=100):
     plt.title("exact vs numeriek")
     plt.xlabel("plaats")
     plt.ylabel("prijs")
-    plt.savefig("testuLaatste.png")
     plt.show()
     
 
