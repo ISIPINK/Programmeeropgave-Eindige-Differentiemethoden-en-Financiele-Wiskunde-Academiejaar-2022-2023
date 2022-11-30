@@ -27,6 +27,10 @@ class Model:
         return  self.looptijd/self.tijdPunten
 
     @property
+    def tijdDiscretisatie(self)-> np.array:
+        return np.arange(0, self.looptijd, self.tau)
+        
+    @property
     def roosterPunten(self)->np.array:
         """roosterPunten exlusief L en S (de s_j's)"""
         return np.arange(self.L,self.S,self.maaswijdte)[1:]
@@ -37,10 +41,12 @@ class Model:
 
     # cell averaging
     def beginU(self)->float:
-        return [self.begint0(sj) 
+        return np.array(
+                [self.begint0(sj) 
                 if abs(sj-self.strike) > self.maaswijdte/2 
                 else 0.5*((sj + self.maaswijdte*0.5) - self.strike) 
                 for sj in self.roosterPunten]
+                )
 
 
     def beginL(self, t)->float:
@@ -85,15 +91,36 @@ class Model:
                 data.append(Djk)
 
         # sparse matrix constructie
-        return csc_matrix((data, (row, col)), shape = (self.plaatsPunten, self.plaatsPunten+2)).toarray()
+        return csc_matrix((data, (row, col)), shape = (self.plaatsPunten, self.plaatsPunten+2))
 
     def A(self):
-        return self.Ad()[:,1:self.plaatsPunten+1]
+        row = []    # [0,0,0, 1,1,1, ...]
+        for j in range(self.plaatsPunten):
+            for _ in range(3):
+                row.append(j)
+
+        col = []    # [0,1,2, 1,2,3, ...]
+        for j in range(self.plaatsPunten):
+            for i in range(3):
+                col.append(j+i-1) # -1 omdat ik de eerst kolom laat wegvallen
+
+        data = []   # alle coëfficiënten Dj aan mekaar 
+        for j in range(self.plaatsPunten):
+            for Djk in self.D(j):
+                data.append(Djk)
+
+        # sparse matrix constructie
+        return csc_matrix((data[1:-1], (row[1:-1], col[1:-1])), shape = (self.plaatsPunten, self.plaatsPunten))
 
     def g(self,t)->float:
+        g = [0]*self.plaatsPunten
+        
         g1 = self.D(1)[0]*self.beginL(t) # altijd 0 in dit model
         gm = self.D(self.plaatsPunten)[2] * self.beginS(t)    
+        g[0] = g1
+        g[-1]= gm
+
         data = [g1,gm]
         row = [0, self.plaatsPunten-1]  #python telt van 0
         col = [0, 0]                    #python telt van 0
-        return csc_matrix((data, (row, col)), shape = (self.plaatsPunten, 1)).toarray()
+        return np.array(g)

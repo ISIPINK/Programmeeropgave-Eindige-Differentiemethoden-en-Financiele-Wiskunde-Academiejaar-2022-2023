@@ -1,11 +1,17 @@
 from parametersOpgave import parametersOpgave   
 import matplotlib.pyplot as plt
 
-def testroosterpunten(aantal=10):
-    par = parametersOpgave(aantal)
-    print("aantal plaatspunten:", len(par.roosterPunten))
+def testroosterPunten(plaatsPunten=10):
+    roosterPunten = parametersOpgave(plaatsPunten = plaatsPunten).roosterPunten
+    print("aantal plaatspunten:", len(roosterPunten))
     print("roosterPunten:")
-    print(par.roosterPunten)
+    print(roosterPunten)
+
+def testtijdDiscretisatie(tijdPunten=10):
+    tijdDiscretisatie = parametersOpgave(tijdPunten=10).tijdDiscretisatie
+    print("aantal tijdPunten:", len(tijdDiscretisatie))
+    print("tijdDiscretisatie:")
+    print(tijdDiscretisatie)
 
 def testBegin0():
     par = parametersOpgave()
@@ -21,7 +27,7 @@ def testBeginU(lijstPlaatsPunten = [20,50,100]):
         x = par.roosterPunten
         y = par.beginU()
         plt.plot(x,y)
-    plt.title(f"testBeginU plaatspunten={lijstPlaatsPunten}")
+    plt.title(f"testBeginU plaatspunten={lijstPlaatsPunten} (cel averaging)")
     plt.show()
 
 def testD():
@@ -34,6 +40,7 @@ def testAd(dim=4):
     Ad = par.Ad()
     print("Ad:")
     print(Ad)
+    print("type:", type(Ad))
 
 def testA(dim=4):
     print("Some sanity checks:")
@@ -44,6 +51,7 @@ def testA(dim=4):
     A = Pdif.A()* Pdif.maaswijdte**2
     print("pure diffusie orde 2:")
     print(A)
+    print("type:", type(A))
 
     Pcon = parametersOpgave(dim)
     Pcon.c0 = lambda x : 0
@@ -60,9 +68,11 @@ def testg(dim= 4):
     print(g(0))
     print("g(2):")
     print(g(2))
+    
 
 if __name__ == "__main__":
-    testroosterpunten()
+    testroosterPunten()
+    testtijdDiscretisatie()
     testBegin0()
     testBeginU()
     testD()
