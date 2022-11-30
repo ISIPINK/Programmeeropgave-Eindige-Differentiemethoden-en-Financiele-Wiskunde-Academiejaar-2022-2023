@@ -69,8 +69,7 @@ def testg(dim= 4):
     print("g(2):")
     print(g(2))
     
-
-if __name__ == "__main__":
+def alleTesten():
     testroosterPunten()
     testtijdDiscretisatie()
     testBegin0()
@@ -79,5 +78,8 @@ if __name__ == "__main__":
     testAd()
     testA()
     testg()
+
+if __name__ == "__main__":
+    alleTesten()
     
     
