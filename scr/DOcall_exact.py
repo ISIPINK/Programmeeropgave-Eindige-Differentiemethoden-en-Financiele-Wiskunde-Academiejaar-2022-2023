@@ -44,7 +44,7 @@ def u(s: "plaats", T: "tijd", M: Model) -> float:
     # ik splits in additieve termen
     a1 = s*N(d1(s,T,M))
     a2 = -M.strike*exprT* N(d2(s,T,M))
-    a3 = s*N(y(s,T,M))* pow(Ls, 2*l(M))
+    a3 = -s*N(y(s,T,M))* pow(Ls, 2*l(M))
     a4 = M.strike * exprT *N(y(s,T,M)-p3)* pow(Ls,2*l(M)-2)
 
     return a1 + a2 + a3 + a4
