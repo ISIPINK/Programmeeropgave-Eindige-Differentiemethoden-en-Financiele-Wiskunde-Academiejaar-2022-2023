@@ -6,13 +6,19 @@ from DOcall_exact import utime, uLaatste
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 import numpy as np
-from math import log
+from math import log,exp
 
 def testLog() -> "grafiek log":
     x = np.arange(0.2, 100, 0.1)
     y = [log(xi) for xi in x]
+
     plt.title("ln(x)")
     plt.plot(x, y)
+    plt.show()
+
+    z = [exp(log(xi)) for xi in x]
+    plt.title("exp(ln(x))")
+    plt.plot(x, z)
     plt.show()
 
 def testN()-> "grafiek N":
@@ -58,7 +64,9 @@ def testuLaatste(plaatsPunten=100, tijdPunten=100):
     plt.title("exact vs numeriek")
     plt.xlabel("plaats")
     plt.ylabel("prijs")
+    plt.savefig("testuLaatste.png")
     plt.show()
+    
 
 
 def testMLDOCallDiscretisatie(plaatsPunten=20, tijdPunten=100):
@@ -79,6 +87,7 @@ def alleTesten():
     testLog()
     testutime()
     testuLaatste()
+    testMLDOCallDiscretisatie()
 
 if __name__ == "__main__":
-    testMLDOCallDiscretisatie()
+    testuLaatste()
