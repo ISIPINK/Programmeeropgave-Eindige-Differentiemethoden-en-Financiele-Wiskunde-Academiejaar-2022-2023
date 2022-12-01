@@ -8,8 +8,8 @@ def testroosterPunten(plaatsPunten=10):
     print(roosterPunten)
 
 def testtijdDiscretisatie(tijdPunten=10):
-    tijdDiscretisatie = parametersOpgave(tijdPunten=10).tijdDiscretisatie
-    print("aantal tijdPunten:", len(tijdDiscretisatie))
+    tijdDiscretisatie = parametersOpgave(tijdPunten=tijdPunten).tijdDiscretisatie
+    print("aantal tijdPunten:", len(tijdDiscretisatie)-1) #ik tel laatste punt niet mee
     print("tijdDiscretisatie:")
     print(tijdDiscretisatie)
 
@@ -39,8 +39,8 @@ def testAd(dim=4):
     par = parametersOpgave(dim)
     Ad = par.Ad()
     print("Ad:")
-    print(Ad)
     print("type:", type(Ad))
+    print(Ad.toarray())
 
 def testA(dim=4):
     print("Some sanity checks:")
@@ -50,8 +50,8 @@ def testA(dim=4):
     Pdif.c2 = lambda x : 1
     A = Pdif.A()* Pdif.maaswijdte**2
     print("pure diffusie orde 2:")
-    print(A)
     print("type:", type(A))
+    print(A.toarray())
 
     Pcon = parametersOpgave(dim)
     Pcon.c0 = lambda x : 0
@@ -59,7 +59,7 @@ def testA(dim=4):
     Pcon.c2 = lambda x : 0
     A = 2* Pcon.A()* Pcon.maaswijdte
     print("pure convectie orde 2:")
-    print(A)
+    print(A.toarray())
 
 def testg(dim= 4):
     par = parametersOpgave(dim)
@@ -80,6 +80,4 @@ def alleTesten():
     testg()
 
 if __name__ == "__main__":
-    alleTesten()
-    
-    
+    alleTesten()   

@@ -56,8 +56,8 @@ def utime(M:Model)-> "raar formaat":
         )
         for t in M.tijdDiscretisatie + [M.looptijd]]
 
-def uLaatste(M:Model)-> np.array:
-    return np.array([u(s,M.looptijd,M) for s in M.roosterPunten])
+def uLaatste(M:Model,T:float)-> np.array:
+    return np.array([u(s,T,M) for s in M.roosterPunten])
         
 
 

@@ -28,7 +28,7 @@ class Model:
 
     @property
     def tijdDiscretisatie(self)-> np.array:
-        return np.arange(0, self.looptijd, self.tau)
+        return np.arange(0, self.looptijd+self.tau, self.tau)
         
     @property
     def roosterPunten(self)->np.array:
@@ -69,6 +69,7 @@ class Model:
     def D(self,j)->np.array:
         # dit kan efficiënter (redundancy)
         sj = self.roosterPunten[j-1]  # python telt van 0
+
         D0 = self.c2(sj)/(self.maaswijdte**2) + self.c1(sj)/(2*self.maaswijdte)
         D1 = -2*self.c2(sj)/(self.maaswijdte**2) - self.c0(sj)
         D2 = self.c2(sj)/(self.maaswijdte**2) - self.c1(sj)/(2*self.maaswijdte)
@@ -115,12 +116,7 @@ class Model:
     def g(self,t)->float:
         g = [0]*self.plaatsPunten
         
-        g1 = self.D(1)[0]*self.beginL(t) # altijd 0 in dit model
-        gm = self.D(self.plaatsPunten)[2] * self.beginS(t)    
-        g[0] = g1
-        g[-1]= gm
+        g[0] = self.D(1)[0]*self.beginL(t) # altijd 0 in dit model
+        g[-1]= self.D(self.plaatsPunten)[2] * self.beginS(t)    
 
-        data = [g1,gm]
-        row = [0, self.plaatsPunten-1]  #python telt van 0
-        col = [0, 0]                    #python telt van 0
         return np.array(g)
