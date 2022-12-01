@@ -49,12 +49,7 @@ def u(s: "plaats", T: "tijd", M: Model) -> float:
 
     return a1 + a2 + a3 + a4
 
-def evalRooster(M:Model,fun:"function")->"raar formaat zoals MlDOcall":
-    return [np.array(
-        [fun(s,t) for s in M.roosterPunten]
-        )
-        for t in M.tijdDiscretisatie + [M.looptijd]]
-
+# deze formule klopt enkel op de eindtijd (denk ik)
 def utime(M:Model)-> "raar formaat":
     return [np.array(
         [u(s,t,M) for s in M.roosterPunten]

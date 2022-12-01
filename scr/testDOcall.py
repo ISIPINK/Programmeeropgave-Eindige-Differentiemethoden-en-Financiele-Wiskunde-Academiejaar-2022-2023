@@ -1,7 +1,7 @@
 from Model import Model
 from DOcall_numer import MLDOCall
-from parametersOpgave import parametersOpgave
 from DOcall_exact import utime, uLaatste
+from parametersOpgave import parametersOpgave
 
 import matplotlib.pyplot as plt
 from scipy.stats import norm
@@ -67,26 +67,13 @@ def testuLaatste(plaatsPunten=100, tijdPunten=100):
     plt.show()
     
 
-
-def testMLDOCallDiscretisatie(plaatsPunten=20, tijdPunten=100):
-    ruw = parametersOpgave(plaatsPunten=plaatsPunten, tijdPunten=tijdPunten)
-    fijn = parametersOpgave(plaatsPunten=1000, tijdPunten=1000)
-
-    plt.plot(ruw.roosterPunten, MLDOCall(ruw)[-1], label="ruw")
-    plt.plot(fijn.roosterPunten, MLDOCall(fijn)[-1], label="fijn")
-    plt.legend()
-    plt.title("ruw vs fijn")
-    plt.xlabel("plaats")
-    plt.ylabel("prijs")
-    plt.show()
-
 def alleTesten():
     testMLDOCall()
     testN()
     testLog()
-    testutime()
+    # is traag en klopt toch niet
+    #testutime()  
     testuLaatste()
-    testMLDOCallDiscretisatie()
 
 if __name__ == "__main__":
     testuLaatste()
