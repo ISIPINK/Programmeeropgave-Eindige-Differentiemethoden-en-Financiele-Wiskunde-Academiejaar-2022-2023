@@ -1,5 +1,5 @@
 from Model import Model
-from DOcall_numer import MLDOCall
+from DOcall_numer import MLDOCall, interpolatie
 from DOcall_exact import utime, uLaatste
 from parametersOpgave import parametersOpgave
 
@@ -78,7 +78,20 @@ def testuLaatsteDisretisatie(plaatsPuntenLijst:list = [20,50,100]):
     plt.xlabel("plaats")
     plt.ylabel("prijs")
     plt.show()
+
+def testinterpolatie():
+    par = parametersOpgave(20,1000)
+    Uts = MLDOCall(par)
+    x = np.arange(par.L,par.S,(par.S-par.L)/100)
+    y = [interpolatie(xi,par.looptijd,Uts,par) for xi in x]
+
+    plt.scatter(x,y)
+    plt.show()
     
+    
+
+    
+
 
 def alleTesten():
     testMLDOCall()
@@ -87,6 +100,8 @@ def alleTesten():
     # is traag en klopt toch niet
     #testutime()  
     testuLaatste()
+    testuLaatsteDisretisatie()
 
 if __name__ == "__main__":
-    testuLaatsteDisretisatie()
+    testinterpolatie()
+    

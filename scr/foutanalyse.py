@@ -2,7 +2,7 @@ from parametersOpgave import parametersOpgave
 from Model import Model
 
 
-from DOcall_numer import MLDOCall
+from DOcall_numer import MLDOCall, interpolatieRooster
 from DOcall_exact import utime, uLaatste
 
 
@@ -42,13 +42,14 @@ def buurt2Fout(alpha:float,M:Model):
     return sqrt(s/M.plaatsPunten)
     
 
-def buurt2FoutAnders(alpha:float,M:Model):
+def buurt2FoutNumeriek(alpha:float,M:Model):
     e,l = indexBuurtRooster(alpha,M)
-
     BuurtRooster = M.roosterPunten[e:l]
-    uLaatsteBuurt = uLaatste(M)[e:l]
+    par = parametersOpgave(1000,1000)
+    
+    UrefLaatsteBuurt = interpolatieRooster(BuurtRooster,M.looptijd,MLDOCall(par),par)
     ULaatsteBuurt = MLDOCall(M)[-1][e:l]
     
-    s = sum((u-U)**2 for u, U in zip(uLaatsteBuurt, ULaatsteBuurt))
+    s = sum((Uref-U)**2 for Uref, U in zip(UrefLaatsteBuurt, ULaatsteBuurt))
     
     return sqrt(s/max(l-e,1))

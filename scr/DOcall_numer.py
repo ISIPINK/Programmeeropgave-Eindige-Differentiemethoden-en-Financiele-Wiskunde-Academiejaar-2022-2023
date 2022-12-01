@@ -2,6 +2,8 @@ from Model import Model
 
 from scipy.sparse import eye
 from scipy.sparse.linalg import splu
+import numpy as np
+from math import floor
 
 
 def MLDOCall(M:Model)->"list of U's on different times": 
@@ -21,5 +23,24 @@ def MLDOCall(M:Model)->"list of U's on different times":
         Utime.append(Unew)
     
     return Utime 
+
+# ik weet dat ik hier beter een klas voor gebruik ...
+def interpolatie(s:"plaats",T:"tijd", Utime, M:Model)-> float:
+    if not(M.L <= s <= M.S):
+        raise Exception("s moet tussen L en S liggen")
+
+    if not(0 <= T <= M.looptijd):
+        raise Exception("T moet tussen 0 en looptijd liggen")
+
+    indexClosestPointUnder = floor((s-M.L)/M.maaswijdte)
+    indexClosetPointBefore = floor(T/M.tau)
+    if indexClosestPointUnder == M.plaatsPunten:
+        return Utime[indexClosetPointBefore][M.plaatsPunten-1] 
+    else:
+        return Utime[indexClosetPointBefore][indexClosestPointUnder] 
+
+def interpolatieRooster(rooster, T:"tijd",Utime,M:Model)-> np.array:
+    return  np.array([interpolatie(s,T,Utime,M) for s in rooster])
+
 
 

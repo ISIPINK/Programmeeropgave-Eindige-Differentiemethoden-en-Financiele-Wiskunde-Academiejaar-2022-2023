@@ -80,4 +80,4 @@ def alleTesten():
     testg()
 
 if __name__ == "__main__":
-    alleTesten()   
+    testtijdDiscretisatie(10)
