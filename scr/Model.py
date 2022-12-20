@@ -6,6 +6,10 @@ from scipy.sparse import csc_matrix
 
 @dataclass
 class Model:
+    """
+    Deze klasse dient om gemakkelijk aan alle
+    parameters van het model te geraken.
+    """
     rente:float
     volatiliteit:float
     looptijd:float 
