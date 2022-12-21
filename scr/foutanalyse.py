@@ -34,7 +34,7 @@ def buurt2Fout(alpha:float,M:Model):
     e,l = indexBuurtRooster(alpha,M)
 
     BuurtRooster = M.roosterPunten[e:l]
-    uLaatsteBuurt = uLaatste(M)[e:l]
+    uLaatsteBuurt = uLaatste(M,M.looptijd)[e:l]
     ULaatsteBuurt = MLDOCall(M)[-1][e:l]
     
     s = sum((u-U)**2 for u, U in zip(uLaatsteBuurt, ULaatsteBuurt))

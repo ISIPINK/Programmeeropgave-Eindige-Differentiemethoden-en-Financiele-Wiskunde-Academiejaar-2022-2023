@@ -98,6 +98,7 @@ class Model:
         # sparse matrix constructie
         return csc_matrix((data, (row, col)), shape = (self.plaatsPunten, self.plaatsPunten+2))
 
+    # A en g uitrekenen
     def A(self):
         row = []    # [0,0,0, 1,1,1, ...]
         for j in range(self.plaatsPunten):
@@ -119,8 +120,6 @@ class Model:
 
     def g(self,t)->float:
         g = [0]*self.plaatsPunten
-        
         g[0] = self.D(0)[0]*self.randL(t) # altijd 0 in dit model
         g[-1]= self.D(self.plaatsPunten-1)[2] * self.randS(t)    
-
         return np.array(g)

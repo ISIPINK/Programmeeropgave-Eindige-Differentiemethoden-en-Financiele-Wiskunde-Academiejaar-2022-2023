@@ -111,14 +111,19 @@ Verzamel $U(t_{n+1})$ (omdat die onbekend is) dit ziet er zo uit:
 .\]
 Dit is een ijl stelsel die een unieke oplossing heeft voor kleine $\tau$.
 LU is hier de meest voor de hand liggende methode omdat we dit stelsel
-herhaaldelijk moeten oplossen.
+herhaaldelijk moeten oplossen en niet afhangt van de tijd.
 
 \oefening{5}
-Kijk python code. (mijn script werkt niet voor $m = 200$ ik weet niet waarom
-waarschijnlijk rare numerieke python dingens \ldots)
+De implementatie is te vinden in ../scr/DOcall_numer.py (deze convergeert niet
+naar de exacte oplossing en werkt niet voor somige $m$ waarden bv 200.) 
 
 \oefening{6}
-We hebben de formules geïmplementeerd maar numeriek convergeert niet naar exact.
-(we hebben waarschijnlijk ergens een fout gemaakt).
+We hebben de formules geïmplementeerd in ../scr/DOcall\_exact.py.
+
+\begin{figure}
+\includegraphics[width=\linewidth]{oefening6.png}
+\caption{exacte oplossing $m = 50$ }\label{fig:opl50}
+\end{figure}
+
 \end{document}
 

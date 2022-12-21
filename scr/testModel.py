@@ -32,6 +32,7 @@ def testBeginU(lijstPlaatsPunten = [20,50,100]):
 
 def testD(dim=4):
     par = parametersOpgave(dim)
+    print("Ad:")
     print(par.Ad().toarray())
     print("D_1:")
     print(par.D(0))
@@ -73,12 +74,12 @@ def testA(dim=4):
     print(A.toarray())
 
 def testg(dim= 4):
-    par = parametersOpgave(dim)
+    par = parametersOpgave(1000)
     g = par.g
     print("h**2 *g(0):")
-    print(g(0)*par.maaswijdte**2)
+    print(g(0)[-1]*par.maaswijdte**2)
     print("h**2 *g(2):")
-    print(g(2)*par.maaswijdte**2)
+    print(g(2)[-1]*par.maaswijdte**2)
 
     #hiervoor kunt niet vergelijken met de pure 
     # versie
@@ -113,5 +114,4 @@ def alleTesten():
     testg()
 
 if __name__ == "__main__":
-    testD()
     testg()

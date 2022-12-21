@@ -8,7 +8,6 @@ import numpy as np
 from scipy.stats import norm
 
 
-
 # ik weet dat hier veel redundant termen staan ...
 
 def d1(s: "plaats", T: "tijd", M: Model) -> float:
@@ -58,6 +57,4 @@ def utime(M:Model)-> "raar formaat":
 
 def uLaatste(M:Model,T:float)-> np.array:
     return np.array([u(s,T,M) for s in M.roosterPunten])
-        
-
 

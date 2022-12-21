@@ -70,7 +70,7 @@ def testuLaatsteDisretisatie(plaatsPuntenLijst:list = [5,20,50,100]):
         par = parametersOpgave(plaatsPunten=plaatsPunten, tijdPunten=5000)
         plt.plot(par.roosterPunten,MLDOCall(par)[-1], label=f"num:{plaatsPunten}")
 
-    ex =parametersOpgave(plaatsPunten=plaatsPuntenLijst[-1], tijdPunten=1000)
+    ex =parametersOpgave(plaatsPunten=plaatsPuntenLijst[-1], tijdPunten=5000)
     plt.plot(ex.roosterPunten, uLaatste(ex,ex.looptijd), label ="exact")
     plt.legend()
     plt.title("exact vs numeriek(discretiasaties)")
@@ -87,9 +87,6 @@ def testinterpolatie():
     plt.scatter(x,y)
     plt.show()
     
-    
-
-    
 
 
 def alleTesten():
@@ -102,5 +99,5 @@ def alleTesten():
     testuLaatsteDisretisatie()
 
 if __name__ == "__main__":
-    testuLaatsteDisretisatie()
+    oefening6()
     

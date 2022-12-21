@@ -12,7 +12,8 @@ def MLDOCall(M:Model)->"list of U's on different times":
     g = M.g
     Utime = [M.beginU()]
 
-    LU = splu(eye(M.plaatsPunten, format = "csc")-0.5*M.tau * A)
+    I = eye(M.plaatsPunten, format = "csc")
+    LU = splu(I-0.5*M.tau * A)
 
     # dit is niet de beste manier om deze for loop te doen
     for t in M.tijdDiscretisatie[:-1]:
