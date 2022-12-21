@@ -4,6 +4,7 @@ from DOcall_exact import uLaatste
 
 from scipy.linalg import expm, norm
 from scipy.sparse.linalg import eigsh
+from math import log
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -72,11 +73,13 @@ def grafiekBuurtFout(alpha=0.3,plaatsPunten:list = range(5,180,5)):
 def grafiekBuurtFoutNumeriek(alpha=0.3,plaatsPunten:list = range(10,500,31)):
     buurtfouten = [buurt2FoutNumeriek(alpha,parametersOpgave(pp,tijdPunten=1000))
             for pp in plaatsPunten ]
-    df = pd.DataFrame(plaatsPunten,buurtfouten)
+    h = [1/pp for pp in plaatsPunten]
+    df = pd.DataFrame(h,buurtfouten)
+    print((log(buurtfouten[-1])-log(buurtfouten[-2]))/(log(h[-1])-log(h[-2])))
     plot = (
-    ggplot(df, aes(x="plaatsPunten", y="buurtfouten")) 
+    ggplot(df, aes(x="h", y="buurtfouten")) 
     + geom_point() 
-    + ggtitle("m vs buurtfout numeriek")
+    + ggtitle("h vs buurtfout numeriek")
     + scale_y_continuous(trans='log10') 
     + scale_x_continuous(trans='log10')
     )
@@ -88,6 +91,5 @@ def alleGrafieken():
     grafiekExacte50()
 
 if __name__ == "__main__":
-    grafiekBuurtFout()
     grafiekBuurtFoutNumeriek()
 
