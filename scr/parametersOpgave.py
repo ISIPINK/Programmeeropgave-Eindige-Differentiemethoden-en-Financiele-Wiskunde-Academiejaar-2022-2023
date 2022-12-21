@@ -23,6 +23,6 @@ def parametersOpgave(plaatsPunten:int = 100, tijdPunten:int = 100)->Model:
            strike = 100,
            L = 80,
            S = 300,
-           plaatsPunten = plaatsPunten,
-           tijdPunten = tijdPunten) 
+           plaatsPunten = plaatsPunten, # standaard 100
+           tijdPunten = tijdPunten) # standaard 100 
     return par

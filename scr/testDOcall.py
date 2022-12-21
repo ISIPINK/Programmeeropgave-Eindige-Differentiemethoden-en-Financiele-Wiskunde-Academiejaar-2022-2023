@@ -10,8 +10,7 @@ from math import log,exp
 
 def testLog() -> "grafiek log":
     x = np.arange(0.2, 100, 0.1)
-    y = [log(xi) for xi in x]
-
+    y = [log(xi) for xi in x] 
     plt.title("ln(x)")
     plt.plot(x, y)
     plt.show()
@@ -103,5 +102,5 @@ def alleTesten():
     testuLaatsteDisretisatie()
 
 if __name__ == "__main__":
-    testinterpolatie()
+    testuLaatste()
     

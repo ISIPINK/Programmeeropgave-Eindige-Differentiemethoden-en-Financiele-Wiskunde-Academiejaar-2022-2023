@@ -30,10 +30,13 @@ def testBeginU(lijstPlaatsPunten = [20,50,100]):
     plt.title(f"testBeginU plaatspunten={lijstPlaatsPunten} (cel averaging)")
     plt.show()
 
-def testD():
-    par = parametersOpgave()
+def testD(dim=4):
+    par = parametersOpgave(dim)
+    print(par.Ad().toarray())
     print("D_1:")
-    print(par.D(1))
+    print(par.D(0))
+    print("D_laatste:")
+    print(par.D(par.plaatsPunten-1))
 
 def testAd(dim=4):
     par = parametersOpgave(dim)
@@ -72,10 +75,10 @@ def testA(dim=4):
 def testg(dim= 4):
     par = parametersOpgave(dim)
     g = par.g
-    print("g(0):")
-    print(g(0))
-    print("g(2):")
-    print(g(2))
+    print("h**2 *g(0):")
+    print(g(0)*par.maaswijdte**2)
+    print("h**2 *g(2):")
+    print(g(2)*par.maaswijdte**2)
 
     #hiervoor kunt niet vergelijken met de pure 
     # versie
@@ -84,9 +87,9 @@ def testg(dim= 4):
     Pcon.c1 = lambda x : 1
     Pcon.c2 = lambda x : 0
     gcon = Pcon.g
-    print("2/h *g(0) voor convectie:")
+    print("2*h *g(0) voor convectie:")
     print(2 * gcon(0) * Pcon.maaswijdte)
-    print("2/h *g(2) voor convectie:")
+    print("2*h *g(2) voor convectie:")
     print(2 * gcon(2) * Pcon.maaswijdte)
 
     Pdif = parametersOpgave(dim)
@@ -94,9 +97,9 @@ def testg(dim= 4):
     Pdif.c1 = lambda x : 0
     Pdif.c2 = lambda x : 1
     gdif = Pdif.g
-    print("1/h**2 *g(0) voor pure diffusie:")
+    print("h**2 *g(0) voor pure diffusie:")
     print(gdif(0) * Pdif.maaswijdte**2)
-    print("1/h**2 *g(2) voor pure diffusie:")
+    print("h**2 *g(2) voor pure diffusie:")
     print(gdif(2) * Pdif.maaswijdte**2)
     
 def alleTesten():
@@ -110,4 +113,5 @@ def alleTesten():
     testg()
 
 if __name__ == "__main__":
-    alleTesten()
+    testD()
+    testg()

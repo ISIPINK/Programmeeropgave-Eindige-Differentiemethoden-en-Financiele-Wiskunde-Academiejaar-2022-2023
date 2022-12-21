@@ -52,11 +52,11 @@ class Model:
                 for sj in self.roosterPunten]
                 )
 
-
-    def beginL(self, t)->float:
+    #randvoorwaarden
+    def randL(self, t)->float:
         return 0
 
-    def beginS(self,t)->float:
+    def randS(self,t)->float:
         return self.S - exp(- self.rente * t) * self.strike
 
     #notatie (oef1)
@@ -120,7 +120,7 @@ class Model:
     def g(self,t)->float:
         g = [0]*self.plaatsPunten
         
-        g[0] = self.D(1)[0]*self.beginL(t) # altijd 0 in dit model
-        g[-1]= self.D(self.plaatsPunten)[2] * self.beginS(t)    
+        g[0] = self.D(0)[0]*self.randL(t) # altijd 0 in dit model
+        g[-1]= self.D(self.plaatsPunten-1)[2] * self.randS(t)    
 
         return np.array(g)

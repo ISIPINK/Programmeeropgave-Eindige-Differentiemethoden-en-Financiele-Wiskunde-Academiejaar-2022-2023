@@ -8,6 +8,24 @@ import pandas as pd
 
 from plotnine import *
 
+def testn2expM():
+    I = np.eye(3)
+    print("I=")
+    print(I)
+    print("expM(I)=")
+    print(expm(I))
+    print("n2expM(I)=")
+    print(norm(expm(I),2))
+
+    II = np.matrix([[1,1],[1,1]])
+    print("II=")
+    print(II)
+    print("expM(II)=")
+    print(expm(II))
+    print("n2expM(II)=",norm(expm(II),2))
+    
+
+
 
 def grafiekMatrixExpA(alleM:"lijst van m" = [5,10,20,50,100]):
     looptijd = parametersOpgave(0).looptijd
@@ -45,7 +63,10 @@ def grafiekMuA(alleM:"lijst van m" = list(range(5,50))+ list(range(50,100,5))+ l
     )
     plot.save("../verslag/oefening3.png",dpi = 300)
 
-
-if __name__ == "__main__":
+def alleGrafieken():
     grafiekMatrixExpA()
     grafiekMuA()
+
+if __name__ == "__main__":
+    testn2expM()
+
