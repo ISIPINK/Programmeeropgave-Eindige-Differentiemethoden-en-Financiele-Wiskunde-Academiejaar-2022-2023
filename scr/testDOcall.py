@@ -65,9 +65,9 @@ def testuLaatste(plaatsPunten=100, tijdPunten=100):
     plt.ylabel("prijs")
     plt.show()
 
-def testuLaatsteDisretisatie(plaatsPuntenLijst:list = [20,50,100]):
+def testuLaatsteDisretisatie(plaatsPuntenLijst:list = [5,20,50,100]):
     for plaatsPunten in plaatsPuntenLijst:
-        par = parametersOpgave(plaatsPunten=plaatsPunten, tijdPunten=10000)
+        par = parametersOpgave(plaatsPunten=plaatsPunten, tijdPunten=5000)
         plt.plot(par.roosterPunten,MLDOCall(par)[-1], label=f"num:{plaatsPunten}")
 
     ex =parametersOpgave(plaatsPunten=plaatsPuntenLijst[-1], tijdPunten=1000)
@@ -102,5 +102,5 @@ def alleTesten():
     testuLaatsteDisretisatie()
 
 if __name__ == "__main__":
-    testuLaatste()
+    testuLaatsteDisretisatie()
     
