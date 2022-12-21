@@ -76,7 +76,9 @@ en $U_{m+1}$ wegwerken in een term $g(t)$.
   U' = AU + (D_{1})_{0}U_{0}e_{1} + (D_{m})_{2} U_{m+1} e_{m}
 .\]
 
-Merk op dat in deze opgave $U_{0}=0$.
+Merk op dat in deze opgave $U_{0}=0$.\\
+Deze notatie wordt geïmplementeerd in ../scr/Model.py
+
 \oefening{2}
 Kijk naar figuur\ref{fig:mnexp} voor de gevraagde grafiek. Dit suggereert 
 dat $\omega = 0$ en $K = 2$ stabiliteit constanten
@@ -110,20 +112,36 @@ Verzamel $U(t_{n+1})$ (omdat die onbekend is) dit ziet er zo uit:
   (I-\frac{\tau}{2}A)U(t_{n+1}) = U(t_{n}) + \frac{\tau}{2} (AU(t_{n}) + g(t_{n})+ g(t_{n+1}))
 .\]
 Dit is een ijl stelsel die een unieke oplossing heeft voor kleine $\tau$.
-LU is hier de meest voor de hand liggende methode omdat we dit stelsel
+LU+backsubben is hier de meest voor de hand liggende methode omdat we dit stelsel
 herhaaldelijk moeten oplossen en niet afhangt van de tijd.
 
 \oefening{5}
-De implementatie is te vinden in ../scr/DOcall_numer.py (deze convergeert niet
+De implementatie is te vinden in ../scr/DOcall\_numer.py (deze convergeert niet
 naar de exacte oplossing en werkt niet voor somige $m$ waarden bv 200.) 
 
 \oefening{6}
-We hebben de formules geïmplementeerd in ../scr/DOcall\_exact.py.
+De implementatie is te vinden in ../scr/DOcall\_exact.py.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{oefening6.png}
 \caption{exacte oplossing $m = 50$ }\label{fig:opl50}
 \end{figure}
 
+\oefening{7}
+De numerieke oplossing convergeert niet naar de exacte om een of andere redenen.
+Daarom wordt hier ook een numeriek buurt fout uitgerekend.
+De implementatie is te vinden in ../scr/foutanalyse.py.
+
+\oefening{8}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{oefening8e.png}
+\caption{ok}\label{fig:buurte}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{oefening8n.png}
+\caption{ok}\label{fig:buurtn}
+\end{figure}
 \end{document}
 

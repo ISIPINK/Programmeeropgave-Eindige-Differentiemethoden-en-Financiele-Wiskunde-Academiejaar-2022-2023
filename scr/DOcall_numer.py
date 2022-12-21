@@ -27,6 +27,10 @@ def MLDOCall(M:Model)->"list of U's on different times":
 
 # ik weet dat ik hier beter een klas voor gebruik ...
 def interpolatie(s:"plaats",T:"tijd", Utime, M:Model)-> float:
+    """
+    Deze functie dient om een schatting van de oplossing 
+    buiten het discretisatie rooster te krijgen.
+    """
     if not(M.L <= s <= M.S):
         raise Exception("s moet tussen L en S liggen")
 

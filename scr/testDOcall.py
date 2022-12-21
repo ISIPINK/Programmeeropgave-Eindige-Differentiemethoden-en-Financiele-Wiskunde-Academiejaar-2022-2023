@@ -85,6 +85,16 @@ def testinterpolatie():
     y = [interpolatie(xi,par.looptijd,Uts,par) for xi in x]
 
     plt.scatter(x,y)
+    plt.title("testinterpolatie laag naar hoog")
+    plt.show()
+
+    par = parametersOpgave(201,1000)
+    Uts = MLDOCall(par)
+    x = np.arange(par.L,par.S,(par.S-par.L)/50)
+    y = [interpolatie(xi,par.looptijd,Uts,par) for xi in x]
+
+    plt.scatter(x,y)
+    plt.title("testinterpolatie hoog naar laag")
     plt.show()
     
 
@@ -99,5 +109,6 @@ def alleTesten():
     testuLaatsteDisretisatie()
 
 if __name__ == "__main__":
-    oefening6()
+    testinterpolatie()
     
+

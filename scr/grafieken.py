@@ -1,4 +1,5 @@
 from parametersOpgave import parametersOpgave        
+from foutanalyse import indexBuurtRooster, buurt2Fout, buurt2FoutNumeriek
 from DOcall_exact import uLaatste
 
 from scipy.linalg import expm, norm
@@ -57,10 +58,36 @@ def grafiekExacte50():
     )
     plot.save("../verslag/oefening6.png",dpi = 300)
 
+def grafiekBuurtFout(alpha=0.3,plaatsPunten:list = range(5,180,5)):
+    buurtfouten = [buurt2Fout(alpha,parametersOpgave(pp,tijdPunten=1000))
+            for pp in plaatsPunten ]
+    df = pd.DataFrame(plaatsPunten,buurtfouten)
+    plot = (
+    ggplot(df, aes(x="plaatsPunten", y="buurtfouten")) 
+    + geom_point() 
+    + ggtitle("m vs buurtfout")
+    )
+    plot.save("../verslag/oefening8e.png",dpi = 300)
+
+def grafiekBuurtFoutNumeriek(alpha=0.3,plaatsPunten:list = range(10,500,31)):
+    buurtfouten = [buurt2FoutNumeriek(alpha,parametersOpgave(pp,tijdPunten=1000))
+            for pp in plaatsPunten ]
+    df = pd.DataFrame(plaatsPunten,buurtfouten)
+    plot = (
+    ggplot(df, aes(x="plaatsPunten", y="buurtfouten")) 
+    + geom_point() 
+    + ggtitle("m vs buurtfout numeriek")
+    + scale_y_continuous(trans='log10') 
+    + scale_x_continuous(trans='log10')
+    )
+    plot.save("../verslag/oefening8n.png",dpi = 300)
+
 def alleGrafieken():
     grafiekMatrixExpA()
     grafiekMuA()
+    grafiekExacte50()
 
 if __name__ == "__main__":
-    grafiekExacte50()
+    grafiekBuurtFout()
+    grafiekBuurtFoutNumeriek()
 

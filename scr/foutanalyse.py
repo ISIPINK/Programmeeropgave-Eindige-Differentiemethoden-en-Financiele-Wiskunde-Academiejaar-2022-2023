@@ -31,6 +31,9 @@ def indexBuurtRooster(alpha: float, M: Model) -> (int,int):
 
 
 def buurt2Fout(alpha:float,M:Model):
+    """
+    berekent de buurt fout ten opzichte van de exacte oplossing
+    """
     e,l = indexBuurtRooster(alpha,M)
 
     BuurtRooster = M.roosterPunten[e:l]
@@ -43,6 +46,11 @@ def buurt2Fout(alpha:float,M:Model):
     
 
 def buurt2FoutNumeriek(alpha:float,M:Model):
+    """
+    berekent de buurt fout op basis van 
+    hogere orde numerieke methoden die constant geïnterpoleerd
+    wordt in de roosterpunten 
+    """
     e,l = indexBuurtRooster(alpha,M)
     BuurtRooster = M.roosterPunten[e:l]
     par = parametersOpgave(1000,1000)
